@@ -2,12 +2,13 @@
 
 An agent skill for adversarial review by a panel of independent models. The agent driving your session (the driver) writes a question, sends the same brief to every panel member in parallel, read-only, then adjudicates their findings as super-judge: it adopts what it agrees with, rejects what it doesn't, and needs no consensus. You see the result together with each member's position.
 
-Two modes:
+Three modes:
 
 - **converge**: for artifacts the driver wrote and may revise (its own wording, its own code). Adopted critique is applied and the revision goes back to the whole panel, until a round adopts nothing of substance or three rounds have run.
 - **opinion**: one adjudicated round, for anything the driver doesn't own, such as someone else's pull request.
+- **research**: one round on a problem rather than an artifact. Each member researches it independently, with web access, and proposes the design it would adopt, citing a source for every claim about external behavior and saying which constraints it relaxes. The brief always asks which constraint drives the most complexity. The driver verifies the load-bearing claims, synthesizes a design, and reviews that synthesis in converge mode before relying on it.
 
-The driver chooses how much context each member gets: `sealed` (the brief alone, no repository, no user or project instructions), `briefed` (plus chosen files), or `checkout` (a read-only copy of the repository).
+The driver chooses how much context each member gets: `sealed` (the brief alone, no repository, no user or project instructions), `briefed` (plus chosen files), or `checkout` (a read-only copy of the repository). Any of them can add `web`, letting the member read the web while its writes stay confined to its own directory; `runtimes.md` says how for each runtime, including an OS write guard where the runtime's own controls fall short.
 
 ## Install
 
