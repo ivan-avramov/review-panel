@@ -3,6 +3,15 @@
 # model: an alias or family, resolved per runtimes.md, or a full id to pin.
 # effort: the runtime's effort level; required for a cursor-agent family and for codex.
 # timeout: optional, in seconds; default 900.
+# vendor: optional; the first-party maker of the model, declared by the operator. Needs vendor_date. The dated declarations are the list a provider name in a runtime's output is checked against.
+# tier: optional; "top" or "capable", declared by the operator. Needs tier_date.
+# billing (per runtime, in [runtime.<name>]): optional; "api" or "subscription". Needs billing_date.
+# Each date is YYYY-MM-DD, the day you declared it.
+# A declaration that contradicts the runtime or the observed model id falls back to same vendor and is an evidence mismatch.
+# Absent fields are warned about at load and resolved per the skill. The vendor, tier and billing lines below are
+# commented examples with placeholder values: uncomment them only after you replace them with your own declarations.
+# cursor-agent exposes no session id, so the cursor-agent members below have level `none` until an evidence field is named.
+# Migration: a 0.2.0 roster with cursor-agent members is asked before dispatch every run (or stops non-interactively) under 0.3.0.
 
 [[member]]
 name = "sol"
@@ -10,19 +19,43 @@ runtime = "cursor-agent"
 model = "sol"
 effort = "high"
 timeout = 1200
+# vendor = "example-vendor-a"
+# vendor_date = "YYYY-MM-DD"
+# tier = "capable"
+# tier_date = "YYYY-MM-DD"
 
 [[member]]
 name = "glm"
 runtime = "cursor-agent"
 model = "glm"
 effort = "high"
+# vendor = "example-vendor-b"
+# vendor_date = "YYYY-MM-DD"
+# tier = "capable"
+# tier_date = "YYYY-MM-DD"
 
 [[member]]
 name = "codex"
 runtime = "codex"
 effort = "high"
+# vendor = "example-vendor-c"
+# vendor_date = "YYYY-MM-DD"
+# tier = "top"
+# tier_date = "YYYY-MM-DD"
 
 [[member]]
 name = "sonnet"
 runtime = "claude"
 model = "sonnet"
+# vendor = "example-vendor-d"
+# vendor_date = "YYYY-MM-DD"
+# tier = "capable"
+# tier_date = "YYYY-MM-DD"
+
+[runtime.claude]
+# billing = "subscription"
+# billing_date = "YYYY-MM-DD"
+
+[runtime.codex]
+# billing = "api"
+# billing_date = "YYYY-MM-DD"
