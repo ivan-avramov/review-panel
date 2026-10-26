@@ -4,9 +4,11 @@ An agent skill for adversarial review by a panel of other models. The session dr
 
 Three modes:
 
-- **converge**: for something the driver wrote and may revise (its own wording, its own code). Adopted critique is applied and the revision goes back to the panel, up to three rounds by default.
-- **opinion**: one round, for anything the driver does not own, such as someone else's pull request.
+- **opinion**: one cold review of an artifact or a question. Findings must name a concrete failure, and a "major" must be a material failure of what the request asks for, or a break of something a real consumer relies on, not a literal mismatch.
+- **verify**: one follow-up after an opinion: the panel gets the dispositions and the diff since (a repair, or an implementation built from a reviewed specification), and checks that each adopted finding is resolved and nothing the diff touches broke. It is verification, not a fresh hunt for defects.
 - **research**: one round on a problem rather than an artifact; each member researches it with web access and proposes a design, citing a source for every claim about external behaviour. The driver verifies the load-bearing claims and synthesises.
+
+A piece of work gets one opinion and at most one verify; an existing independent review you accept, such as a pull-request review, counts as the opinion. Revising the material, renaming the phase or swapping members does not reset that; more review is your call. (0.4.x had a `converge` mode that re-reviewed each revision for up to three rounds; 0.5.0 drops it.)
 
 Each member gets the least context its review needs: `sealed` (the brief alone), `briefed` (plus chosen files) or `checkout` (a read-only copy of the repository), with `web` added where the material makes claims about the outside world. `runtimes.md` says how each runtime is run and what it reports.
 
